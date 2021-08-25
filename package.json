@@ -1,5 +1,5 @@
 {
-  "name": "vbt-image-sequence-component",
+  "name": "@verybigthings/vbt-image-sequence-component",
   "version": "0.1.1",
   "private": false,
   "publishConfig": {
