@@ -19,7 +19,7 @@ Component needs next props as an input:
 ```typescript
 type VBTImageSequenceComponentProps = {
     currentIndex: number; // Current index of frame 0..N, where N is the number of last frame
-    imagesURLs: Array<string>; // Just Array of images src. Don't forget to require them before.
+    imagesURLsJSONString: string; // Just JSON stringified Array of images src. Don't forget to require them before.
     app: ImageSequenceApp; // Instance of the viewer, so it's not created once again
     className?: string; // Just if needed.
 };
@@ -39,7 +39,7 @@ To control the size of the viewer, just change CSS style of div, that surrounds 
     left: "60px",
 }}>
     <VBTImageSequenceComponent
-        imagesURLs={this.state.imagesURLs}
+        imagesURLsJSONString={JSON.stringify(this.state.imagesURLs)}
         currentIndex={this.state.currentIndex}
         app={this.state.app}
     />

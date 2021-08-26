@@ -49,15 +49,15 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
         return this.canvas;
     }
 
-    setImagesURLs(imagesURLs: Array<string>) {
-
+    setImagesURLs(imagesURLsJSONString: string) {
+        const imagesURLs: Array<string> = JSON.parse(imagesURLsJSONString);
         this.textures.forEach((el, i) => {
             el.dispose();
         });
         this.textures = [];
         this.loadedQuantity = 0;
         this.loadedImages = false;
-        console.log(imagesURLs);
+        // console.log(imagesURLs);
         imagesURLs.forEach((url, index) => {
             const texture = new TextureLoader().load(url, () => this.textureLoaded(index, imagesURLs.length));
             // Just for future needs..
