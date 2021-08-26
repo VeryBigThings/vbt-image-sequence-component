@@ -12,7 +12,7 @@ type MyState = {
     app?: any;
 };
 function initAppWithDefaultResources() {
-    return new InternalApp([]);
+    return new InternalApp();
 }
 
 export default class App extends React.Component<MyProps, MyState> {

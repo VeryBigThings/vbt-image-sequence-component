@@ -19,14 +19,15 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
     useEffect(() => {
         const targetEl = targetElRef.current;
         // props.app.setImagesURLs(props.imagesURLs);
-        if (targetEl) {
+        if (targetEl && props.app) {
             // @ts-ignore
             targetEl.appendChild(props.app.getDOMElement());
         }
         return () => {
-            if (targetEl) {
-                // @ts-ignore
-                targetEl.removeChild(props.app.getDOMElement());
+            if (targetEl && props.app) {
+                while (targetEl.firstChild) {
+                    targetEl.removeChild(targetEl.lastChild);
+                }
             }
         };
     }, []); // eslint-disable-line
@@ -38,11 +39,23 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
 
 
     useEffect(() => {
-        props.app.setImagesURLs(props.imagesURLs);
+        const targetEl = targetElRef.current;
+        if (targetEl) {
+            while (targetEl.firstChild) {
+                targetEl.removeChild(targetEl.lastChild);
+            }
+            if(props.app) {
+                targetEl.appendChild(props.app.getDOMElement());
+            }
+        }
+    }, [props.app]);
+
+    useEffect(() => {
+        if(props.app) props.app.setImagesURLs(props.imagesURLs);
     }, [props.app, props.imagesURLs]);
 
     useEffect(() => {
-        props.app.setIndex(props.currentIndex);
+        if(props.app) props.app.setIndex(props.currentIndex);
     }, [props.app, props.currentIndex]);
 
 
