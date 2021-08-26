@@ -46,6 +46,8 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
             }
             if(props.app) {
                 targetEl.appendChild(props.app.getDOMElement());
+                props.app.setImagesURLs(props.imagesURLsJSONString);
+                props.app.setIndex(props.currentIndex);
             }
         }
     }, [props.app]);
@@ -57,7 +59,7 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
 
     useEffect(() => {
         if(props.app) props.app.setIndex(props.currentIndex);
-    }, [props.app, props.currentIndex]);
+    }, [props.currentIndex]);
 
 
     // We use padding-top to keep the div responsive. Please check the ratio, I've come
