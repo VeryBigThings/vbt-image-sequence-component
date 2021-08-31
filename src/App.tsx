@@ -87,7 +87,7 @@ export default class App extends React.Component<MyProps, MyState> {
                     left: "60px",
                 }}>
                     <VBTImageSequenceComponent
-                        imagesURLsJSONString={JSON.stringify(this.state.imagesURLs)}
+                        imagesURLsJSONString={JSON.stringify(this.state.imagesURLs) }
                         currentIndex={this.state.currentIndex}
                         app={this.state.app}
 
