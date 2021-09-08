@@ -5,6 +5,7 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
     textures: Texture[] = [];
     loadedQuantity: number = 0;
     loadedImages: boolean = false;
+    onLoaded: ()=>void;
     private material: MeshBasicMaterial;
     private currentIndex: number = 0;
 
@@ -17,7 +18,14 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
 
     textureLoaded(index: number, totalQuantity: number) {
         if (++this.loadedQuantity >= totalQuantity) {
-            this.loadedImages = true;
+            setTimeout(() => {
+                this.loadedImages = true;
+                if(this.onLoaded) {
+                    console.log('this.onLoaded();');
+                    this.onLoaded();
+                }
+                console.log('loaded');
+            }, 5000);
             // console.log('Images are loaded..');
             this.setIndex(this.currentIndex);
         }

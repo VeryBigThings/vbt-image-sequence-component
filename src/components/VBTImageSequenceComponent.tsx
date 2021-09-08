@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {ImageSequenceApp} from './viewer/ImageSequenceApp';
 
 export type VBTImageSequenceComponentState = {};
@@ -7,10 +7,13 @@ export type VBTImageSequenceComponentProps = {
     imagesURLsJSONString: string;
     app: ImageSequenceApp;
     className?: string;
+    idleImageSrc?: string;
 };
 
 export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps) {
     const targetElRef = useRef<HTMLDivElement>();
+
+    let [loadedImages, setLoadedImages] = useState(false);
 
     // This effect has no dependencies because we want it to run only
     // once. Maybe we should re-run it whenever any of deps changes,
@@ -19,15 +22,26 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
     useEffect(() => {
         const targetEl = targetElRef.current;
         // props.app.setImagesURLs(props.imagesURLs);
-        if (targetEl && props.app) {
-            // @ts-ignore
-            targetEl.appendChild(props.app.getDOMElement());
+        if (props.app) {
+            if(targetEl){
+                // @ts-ignore
+                targetEl.appendChild(props.app.getDOMElement());
+            }
+            console.log('props.app.onLoaded = () => setLoadedImages(true);');
+            props.app.onLoaded = () => {
+                setLoadedImages(true);
+                if(targetEl) {
+                    // @ts-ignore
+                    targetEl.appendChild(props.app.getDOMElement());
+                }
+            }
         }
         return () => {
             if (targetEl && props.app) {
                 while (targetEl.firstChild) {
                     targetEl.removeChild(targetEl.lastChild);
                 }
+                props.app.onLoaded = null;
             }
         };
     }, []); // eslint-disable-line
@@ -44,11 +58,20 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
             while (targetEl.firstChild) {
                 targetEl.removeChild(targetEl.lastChild);
             }
+            props.app.onLoaded = null;
             if(props.app) {
                 targetEl.appendChild(props.app.getDOMElement());
-                props.app.setImagesURLs(props.imagesURLsJSONString);
-                props.app.setIndex(props.currentIndex);
             }
+        }
+        if(props.app) {
+            console.log('props.app.onLoaded = () => {');
+            props.app.onLoaded = () => {
+                setLoadedImages(true);
+                targetEl.appendChild(props.app.getDOMElement());
+                console.log('loaded useEffect callback');
+            }
+            props.app.setImagesURLs(props.imagesURLsJSONString);
+            props.app.setIndex(props.currentIndex);
         }
     }, [props.app]);
 
@@ -75,6 +98,20 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
             }}
             className={props.className}
         >
+                <img
+                    alt={'Sequence component idle'}
+                    src={props.idleImageSrc}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        position: 'absolute',
+                        top: '0',
+                        left: '0',
+                        display: loadedImages ? 'none':'block'
+
+
+                    }}
+                />
             <div
                 ref={targetElRef}
                 style={{
@@ -82,9 +119,11 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
                     height: '100%',
                     position: 'absolute',
                     top: '0',
-                    left: '0'
+                    left: '0',
+                    display: loadedImages ? 'block' : 'none'
                 }}
             />
+
         </div>
     );
 }

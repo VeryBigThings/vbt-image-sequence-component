@@ -10,6 +10,7 @@ type MyState = {
     currentIndex: number;
     imagesURLs: Array<string>;
     app?: any;
+    idleImageSrc?: string;
 };
 function initAppWithDefaultResources() {
     return new InternalApp();
@@ -56,7 +57,8 @@ export default class App extends React.Component<MyProps, MyState> {
             require('./assets/images/test_sequence/Image_33.png'),
             require('./assets/images/test_sequence/Image_34.png'),
         ],
-        app: initAppWithDefaultResources()
+        app: initAppWithDefaultResources(),
+        idleImageSrc: require('./assets/images/test_sequence/Image_0.png')
     };
 
     constructor(props: any) {
@@ -90,6 +92,7 @@ export default class App extends React.Component<MyProps, MyState> {
                         imagesURLsJSONString={JSON.stringify(this.state.imagesURLs) }
                         currentIndex={this.state.currentIndex}
                         app={this.state.app}
+                        idleImageSrc={this.state.idleImageSrc}
 
                     />
 
