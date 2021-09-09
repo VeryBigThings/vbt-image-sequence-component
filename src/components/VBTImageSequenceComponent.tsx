@@ -58,9 +58,9 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
             while (targetEl.firstChild) {
                 targetEl.removeChild(targetEl.lastChild);
             }
-            props.app.onLoaded = null;
             setLoadedImages(false);
             if(props.app) {
+                props.app.onLoaded = null;
                 targetEl.appendChild(props.app.getDOMElement());
             }
         }
