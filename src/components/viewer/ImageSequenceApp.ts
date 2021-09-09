@@ -18,14 +18,12 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
 
     textureLoaded(index: number, totalQuantity: number) {
         if (++this.loadedQuantity >= totalQuantity) {
-            setTimeout(() => {
-                this.loadedImages = true;
-                if(this.onLoaded) {
-                    console.log('this.onLoaded();');
-                    this.onLoaded();
-                }
-                console.log('loaded');
-            }, 5000);
+            this.loadedImages = true;
+            if(this.onLoaded) {
+                console.log('this.onLoaded();');
+                this.onLoaded();
+            }
+            console.log('loaded');
             // console.log('Images are loaded..');
             this.setIndex(this.currentIndex);
         }
