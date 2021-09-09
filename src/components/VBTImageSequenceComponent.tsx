@@ -27,7 +27,6 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
                 // @ts-ignore
                 targetEl.appendChild(props.app.getDOMElement());
             }
-            console.log('props.app.onLoaded = () => setLoadedImages(true);');
             props.app.onLoaded = () => {
                 setLoadedImages(true);
                 if(targetEl) {
@@ -42,6 +41,7 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
                     targetEl.removeChild(targetEl.lastChild);
                 }
                 props.app.onLoaded = null;
+                setLoadedImages(false);
             }
         };
     }, []); // eslint-disable-line
@@ -59,16 +59,15 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
                 targetEl.removeChild(targetEl.lastChild);
             }
             props.app.onLoaded = null;
+            setLoadedImages(false);
             if(props.app) {
                 targetEl.appendChild(props.app.getDOMElement());
             }
         }
         if(props.app) {
-            console.log('props.app.onLoaded = () => {');
             props.app.onLoaded = () => {
                 setLoadedImages(true);
                 targetEl.appendChild(props.app.getDOMElement());
-                console.log('loaded useEffect callback');
             }
             props.app.setImagesURLs(props.imagesURLsJSONString);
             props.app.setIndex(props.currentIndex);
@@ -77,7 +76,15 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
 
     // todo: change array to JSON string
     useEffect(() => {
-        if(props.app) props.app.setImagesURLs(props.imagesURLsJSONString);
+        if(props.app) {
+            const updated = props.app.setImagesURLs(props.imagesURLsJSONString);
+            if(updated) {
+                setLoadedImages(false);
+                props.app.onLoaded = () => {
+                    setLoadedImages(true);
+                }
+            }
+        }
     }, [props.imagesURLsJSONString]);
 
     useEffect(() => {

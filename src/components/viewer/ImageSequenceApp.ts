@@ -8,6 +8,7 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
     onLoaded: ()=>void;
     private material: MeshBasicMaterial;
     private currentIndex: number = 0;
+    private imagesURLsJSONString: string;
 
     constructor() {
         super();
@@ -18,13 +19,11 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
 
     textureLoaded(index: number, totalQuantity: number) {
         if (++this.loadedQuantity >= totalQuantity) {
+            console.log(this.loadedQuantity, totalQuantity);
             this.loadedImages = true;
             if(this.onLoaded) {
-                console.log('this.onLoaded();');
                 this.onLoaded();
             }
-            console.log('loaded');
-            // console.log('Images are loaded..');
             this.setIndex(this.currentIndex);
         }
     }
@@ -56,6 +55,10 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
     }
 
     setImagesURLs(imagesURLsJSONString: string) {
+        if(this.imagesURLsJSONString === imagesURLsJSONString) {
+            return false;
+        }
+        this.imagesURLsJSONString = imagesURLsJSONString;
         const imagesURLs: Array<string> = JSON.parse(imagesURLsJSONString);
         this.textures.forEach((el, i) => {
             el.dispose();
@@ -65,7 +68,13 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
         this.loadedImages = false;
         // console.log(imagesURLs);
         imagesURLs.forEach((url, index) => {
-            const texture = new TextureLoader().load(url, () => this.textureLoaded(index, imagesURLs.length));
+            const texture = new TextureLoader().load(url, () => {
+                if(this.imagesURLsJSONString !== imagesURLsJSONString) {
+                    texture.dispose();
+                    return;
+                }
+                this.textureLoaded(index, imagesURLs.length)
+            });
             // Just for future needs..
             // texture.anisotropy = 0;
             // texture.magFilter = NearestFilter;
@@ -73,6 +82,7 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
             this.textures.push(
                 texture
             );
-        })
+        });
+        return true;
     }
 }
