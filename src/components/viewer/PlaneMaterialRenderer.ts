@@ -13,12 +13,8 @@ export class PlaneMaterialRenderer {
     public canvas: HTMLCanvasElement;
     public renderer: WebGLRenderer;
 
-    constructor() {
-
-    }
-
     init(material: Material) {
-        this.canvas = <HTMLCanvasElement>document.createElement('canvas');
+        this.canvas = (document.createElement('canvas') as HTMLCanvasElement);
         this.canvas.id = `webglApp_${makeId()}`;
         this.canvas.style.height = '100%';
         this.canvas.style.width = '100%';

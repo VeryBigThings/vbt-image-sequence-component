@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './App.css';
 import {ImageSequenceApp as InternalApp, VBTImageSequenceComponent} from './components/index';
 
@@ -65,10 +65,6 @@ export default class App extends React.Component<MyProps, MyState> {
         super(props);
 
         // const [currentIndex, setCurrentIndex] = useState(this.state.currentIndex);
-
-
-        // console.log('APP LOADED', app);
-
     }
 
     render() {
@@ -78,7 +74,6 @@ export default class App extends React.Component<MyProps, MyState> {
                     this.setState({currentIndex: +e.target.value})
                 }}/>
                 <button onClick={() => {
-                    // console.log('click', this.state.imagesURLs.slice().reverse());
                     this.setState({imagesURLs: this.state.imagesURLs.slice().reverse()})
                 }}>Reverse</button>
                 <div style={{

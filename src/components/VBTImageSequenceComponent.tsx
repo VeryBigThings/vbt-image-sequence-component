@@ -99,9 +99,6 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
             style={{
                 width: '100%',
                 height: '100%',
-                position: 'absolute',
-                top: '0',
-                left: '0'
             }}
             className={props.className}
         >
@@ -111,12 +108,7 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
                     style={{
                         width: '100%',
                         height: '100%',
-                        position: 'absolute',
-                        top: '0',
-                        left: '0',
                         display: loadedImages ? 'none':'block'
-
-
                     }}
                 />
             <div
@@ -124,9 +116,6 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
                 style={{
                     width: '100%',
                     height: '100%',
-                    position: 'absolute',
-                    top: '0',
-                    left: '0',
                     display: loadedImages ? 'block' : 'none'
                 }}
             />
