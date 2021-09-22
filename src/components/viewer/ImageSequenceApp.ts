@@ -34,7 +34,9 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
         this.material.needsUpdate = true;
 
         this.textures.forEach((el, i) => {
-            if (Math.abs(index - i) > 3) el.dispose();
+            if (Math.abs(index - i) > 30) {
+                el.dispose();
+            }
         })
     }
 

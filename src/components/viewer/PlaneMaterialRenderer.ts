@@ -20,6 +20,7 @@ export class PlaneMaterialRenderer {
         this.canvas.style.width = '100%';
         this.renderer = new WebGLRenderer({canvas: this.canvas, alpha: true});
         this.renderer.autoClearColor = true;
+        this.renderer.setPixelRatio(devicePixelRatio);
         // this.renderer.setClearAlpha(0);
         this.renderer.setClearColor(0x000000, 0);
 
