@@ -47,16 +47,27 @@ export class PlaneMaterialRenderer {
             return needResize;
         }
 
+        const isCanvasInViewport = (el: HTMLCanvasElement) => {
+
+            const { top, bottom } = el.getBoundingClientRect();
+            const vHeight = (window.innerHeight || document.documentElement.clientHeight);
+
+            return (
+                (top > 0 || bottom > 0) &&
+                top < vHeight
+            );
+        }
+
         const render = (time: number) => {
             time *= 0.001;
-
-            resizeRendererToDisplaySize(this.renderer);
-
             const canvas = this.renderer.domElement;
-            this.update(time, canvas.width, canvas.height);
+            if(isCanvasInViewport(canvas)) {
+                resizeRendererToDisplaySize(this.renderer);
 
-            this.renderer.render(scene, camera);
+                this.update(time, canvas.width, canvas.height);
 
+                this.renderer.render(scene, camera);
+            }
             requestAnimationFrame(render);
         }
 
