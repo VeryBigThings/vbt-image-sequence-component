@@ -8,6 +8,7 @@ export type VBTImageSequenceComponentProps = {
     app: ImageSequenceApp;
     className?: string;
     idleImageSrc?: string;
+    aspectRatio: number;
 };
 
 export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps) {
@@ -90,6 +91,10 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
     useEffect(() => {
         if(props.app) props.app.setIndex(props.currentIndex);
     }, [props.currentIndex]);
+
+    useEffect(() => {
+        if(props.app) props.app.aspectRatio = props.aspectRatio;
+    }, [props.aspectRatio]);
 
 
     // We use padding-top to keep the div responsive. Please check the ratio, I've come

@@ -12,11 +12,17 @@ export class PlaneMaterialRenderer {
 
     public canvas: HTMLCanvasElement;
     public renderer: WebGLRenderer;
+    /**
+     * If the aspect ratio is 0, canvas is fully filled the parent.
+     * If not, fills with the largest side.
+     * aspectRatio = width / height;
+     */
+    public aspectRatio: number = 0;
 
     init(material: Material) {
         this.canvas = (document.createElement('canvas') as HTMLCanvasElement);
         this.canvas.id = `webglApp_${makeId()}`;
-        this.canvas.style.height = '100%';
+        this.canvas.style.height = 'auto';
         this.canvas.style.width = '100%';
         this.renderer = new WebGLRenderer({canvas: this.canvas, alpha: true});
         this.renderer.autoClearColor = true;
@@ -37,10 +43,10 @@ export class PlaneMaterialRenderer {
 
         scene.add(new Mesh(plane, material));
 
-        function resizeRendererToDisplaySize(renderer: WebGLRenderer) {
+        const resizeRendererToDisplaySize = (renderer: WebGLRenderer) => {
             const canvas = renderer.domElement;
             const width = canvas.clientWidth;
-            const height = canvas.clientHeight;
+            const height = this.aspectRatio === 0 ? canvas.clientHeight : canvas.clientWidth * this.aspectRatio;
             const needResize = canvas.width !== width || canvas.height !== height;
             if (needResize) {
                 renderer.setSize(width, height, false);
