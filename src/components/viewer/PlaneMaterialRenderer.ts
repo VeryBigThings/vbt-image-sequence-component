@@ -15,7 +15,7 @@ export class PlaneMaterialRenderer {
     /**
      * If the aspect ratio is 0, canvas is fully filled the parent.
      * If not, fills with the largest side.
-     * aspectRatio = width / height;
+     * aspectRatio = height / width;
      */
     public aspectRatio: number = 0;
 

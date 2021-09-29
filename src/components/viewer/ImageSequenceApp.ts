@@ -19,7 +19,6 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
 
     textureLoaded(index: number, totalQuantity: number) {
         if (++this.loadedQuantity >= totalQuantity) {
-            console.log(this.loadedQuantity, totalQuantity);
             this.loadedImages = true;
             if(this.onLoaded) {
                 this.onLoaded();
@@ -68,7 +67,6 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
         this.textures = [];
         this.loadedQuantity = 0;
         this.loadedImages = false;
-        // console.log(imagesURLs);
         imagesURLs.forEach((url, index) => {
             const texture = new TextureLoader().load(url, () => {
                 if(this.imagesURLsJSONString !== imagesURLsJSONString) {
