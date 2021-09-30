@@ -7,10 +7,10 @@ type MyProps = {
     // message: string;
 };
 type MyState = {
-    currentIndex: number;
     imagesURLs: Array<string>;
     app?: any;
     idleImageSrc?: string;
+    pause: boolean;
 };
 function initAppWithDefaultResources() {
     return new InternalApp();
@@ -19,7 +19,7 @@ function initAppWithDefaultResources() {
 export default class App extends React.Component<MyProps, MyState> {
     state: MyState = {
         // optional second annotation for better type inference
-        currentIndex: 0,
+        pause: false,
         imagesURLs: [
             require('./assets/images/test_sequence/Image_0.png'),
             require('./assets/images/test_sequence/Image_1.png'),
@@ -70,12 +70,9 @@ export default class App extends React.Component<MyProps, MyState> {
     render() {
         return (
             <div className="App" id="controlsContainer">
-                <input type="number" value={this.state.currentIndex} min={0} max={this.state.imagesURLs.length - 1} step={1} onChange={(e) => {
-                    this.setState({currentIndex: +e.target.value})
-                }}/>
                 <button onClick={() => {
-                    this.setState({imagesURLs: this.state.imagesURLs.slice().reverse()})
-                }}>Reverse</button>
+                    this.setState({pause: !this.state.pause})
+                }}>Pause</button>
                 <div style={{
                     width: "400px",
                     height: "400px",
@@ -85,9 +82,12 @@ export default class App extends React.Component<MyProps, MyState> {
                 }}>
                     <VBTImageSequenceComponent
                         imagesURLsJSONString={JSON.stringify(this.state.imagesURLs) }
-                        currentIndex={this.state.currentIndex}
                         app={this.state.app}
                         idleImageSrc={this.state.idleImageSrc}
+                        interval={0.05}
+                        reverse={true}
+                        pause={this.state.pause}
+                        aspectRatio={0}
 
                     />
 

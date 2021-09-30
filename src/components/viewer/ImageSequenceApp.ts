@@ -5,10 +5,15 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
     textures: Texture[] = [];
     loadedQuantity: number = 0;
     loadedImages: boolean = false;
-    onLoaded: ()=>void;
+    onLoaded: () => void;
     private material: MeshBasicMaterial;
     private currentIndex: number = 0;
     private imagesURLsJSONString: string;
+    private interval: number = -1;
+    private reverse: boolean = false;
+    private pause: boolean = false;
+    private incrementor: number = 1;// 1  or  -1
+    private lastTime: number = 0;
 
     constructor() {
         super();
@@ -20,7 +25,7 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
     textureLoaded(index: number, totalQuantity: number) {
         if (++this.loadedQuantity >= totalQuantity) {
             this.loadedImages = true;
-            if(this.onLoaded) {
+            if (this.onLoaded) {
                 this.onLoaded();
             }
             this.setIndex(this.currentIndex);
@@ -41,6 +46,24 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
 
     update(time: number, width: number, height: number) {
         super.update(time, width, height);
+        if (!this.pause && time - this.lastTime > this.interval) {
+            let newIndex = this.currentIndex + this.incrementor;
+            if (newIndex >= this.textures.length) {
+                if (this.reverse) {
+                    newIndex--;
+                    this.incrementor *= -1;
+                } else {
+                    newIndex = 0;
+                }
+            }
+
+            if (newIndex < 0) {
+                newIndex = 0;
+                this.incrementor = 1;
+            }
+            this.setIndex(newIndex)
+            this.lastTime = time;
+        }
     }
 
     destroy() {
@@ -56,7 +79,7 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
     }
 
     setImagesURLs(imagesURLsJSONString: string) {
-        if(this.imagesURLsJSONString === imagesURLsJSONString) {
+        if (this.imagesURLsJSONString === imagesURLsJSONString) {
             return false;
         }
         this.imagesURLsJSONString = imagesURLsJSONString;
@@ -69,7 +92,7 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
         this.loadedImages = false;
         imagesURLs.forEach((url, index) => {
             const texture = new TextureLoader().load(url, () => {
-                if(this.imagesURLsJSONString !== imagesURLsJSONString) {
+                if (this.imagesURLsJSONString !== imagesURLsJSONString) {
                     texture.dispose();
                     return;
                 }
@@ -84,5 +107,17 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
             );
         });
         return true;
+    }
+
+    setInterval(interval: number) {
+        this.interval = interval;
+    }
+
+    setReverse(reverse: boolean) {
+        this.reverse = reverse;
+    }
+
+    setPause(pause: boolean) {
+        this.pause = pause;
     }
 }

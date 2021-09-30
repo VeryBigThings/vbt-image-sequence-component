@@ -3,12 +3,27 @@ import {ImageSequenceApp} from './viewer/ImageSequenceApp';
 
 export type VBTImageSequenceComponentState = {};
 export type VBTImageSequenceComponentProps = {
-    currentIndex: number;
     imagesURLsJSONString: string;
     app: ImageSequenceApp;
-    className?: string;
     idleImageSrc?: string;
+    className?: string;
     aspectRatio: number;
+    // currentIndex: number;
+
+    interval: number; //interval between each of the frames in seconds
+
+    // -- needed for the layers of customization animation --
+    reverse: boolean;//, if set to true, the component goes to the last index and then goes in reverse
+
+    //  -- needed for pausing the plug n play animation --
+    pause?: boolean; // which pauses the animation
+
+    // -- needed for the cube animation --
+    resetIndex?: number; // index on which the sequence will restart from beginning
+    holdBehaviourIndex?: number; // if set to 2 for example, will run 2 whole animations after the reset counter finish
+    resetBehaviourIndex?: number; // if set to 3 for example, after the sequence restarts three times at restart index
+    // and then number equal to the hold-behaviour-index runs full animations
+    startResetBehaviourIndex?: number; // starting value of the reset-behaviour
 };
 
 export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps) {
@@ -71,7 +86,7 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
                 targetEl.appendChild(props.app.getDOMElement());
             }
             props.app.setImagesURLs(props.imagesURLsJSONString);
-            props.app.setIndex(props.currentIndex);
+            // props.app.setIndex(props.currentIndex);
         }
     }, [props.app]);
 
@@ -88,14 +103,24 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
         }
     }, [props.imagesURLsJSONString]);
 
-    useEffect(() => {
-        if(props.app) props.app.setIndex(props.currentIndex);
-    }, [props.currentIndex]);
+    // useEffect(() => {
+    //     if(props.app) props.app.setIndex(props.currentIndex);
+    // }, [props.currentIndex]);
 
     useEffect(() => {
         if(props.app) props.app.aspectRatio = props.aspectRatio;
     }, [props.aspectRatio]);
 
+
+    useEffect(() => {
+        if(props.app) props.app.setInterval(props.interval);
+    }, [props.interval]);
+    useEffect(() => {
+        if(props.app) props.app.setReverse(props.reverse);
+    }, [props.reverse]);
+    useEffect(() => {
+        if(props.app) props.app.setPause(props.pause);
+    }, [props.pause]);
 
     // We use padding-top to keep the div responsive. Please check the ratio, I've come
     // to 12 / 16 by experimenting, but maybe some other ratio could work better
