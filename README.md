@@ -18,10 +18,26 @@ $ npm install @verybigthings/vbt-image-sequence-component
 Component needs next props as an input:
 ```typescript
 type VBTImageSequenceComponentProps = {
-    currentIndex: number; // Current index of frame 0..N, where N is the number of last frame
     imagesURLsJSONString: string; // Just JSON stringified Array of images src. Don't forget to require them before.
     app: ImageSequenceApp; // Instance of the viewer, so it's not created once again
     className?: string; // Just if needed.
+    idleImageSrc?: string;
+    aspectRatio: number;
+    // currentIndex: number;
+
+    interval: number; //interval between each of the frames in seconds
+
+    // -- needed for the layers of customization animation --
+    reverse: boolean;//, if set to true, the component goes to the last index and then goes in reverse
+
+    //  -- needed for pausing the plug n play animation --
+    pause?: boolean; // which pauses the animation
+
+    // -- needed for the cube animation --
+    resetIndex?: number; // index on which the sequence will restart from beginning     
+    holdBehaviourIndex?: number; // if set to 2 for example, will run 2 whole animations after the reset counter finish
+    resetBehaviourIndex?: number; // if set to 3 for example, after the sequence restarts three times at restart index
+    // and then number equal to the hold-behaviour-index runs full animations
 };
 ```
 You can also destroy (dispose all GPU memory data of single instance) just calling: 
@@ -40,8 +56,8 @@ To control the size of the viewer, just change CSS style of div, that surrounds 
 }}>
     <VBTImageSequenceComponent
         imagesURLsJSONString={JSON.stringify(this.state.imagesURLs)}
-        currentIndex={this.state.currentIndex}
         app={this.state.app}
+        interval={0.05}
     />
 </div>
 ```
