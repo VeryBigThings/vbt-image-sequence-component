@@ -122,6 +122,20 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
         if(props.app) props.app.setPause(props.pause);
     }, [props.pause]);
 
+    useEffect(() => {
+        if(props.app) props.app.setResetIndex(props.resetIndex);
+    }, [props.resetIndex]);
+    useEffect(() => {
+        if(props.app) props.app.setHoldBehaviourIndex(props.holdBehaviourIndex);
+    }, [props.holdBehaviourIndex]);
+    useEffect(() => {
+        if(props.app) props.app.setResetBehaviourIndex(props.resetBehaviourIndex);
+    }, [props.resetBehaviourIndex]);
+    useEffect(() => {
+        if(props.app) props.app.setStartResetBehaviourIndex(props.startResetBehaviourIndex);
+    }, [props.startResetBehaviourIndex]);
+
+
     // We use padding-top to keep the div responsive. Please check the ratio, I've come
     // to 12 / 16 by experimenting, but maybe some other ratio could work better
     return (

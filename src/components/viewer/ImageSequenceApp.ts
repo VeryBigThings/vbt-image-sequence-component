@@ -14,6 +14,12 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
     private pause: boolean = false;
     private incrementor: number = 1;// 1  or  -1
     private lastTime: number = 0;
+    private resetIndex: number;
+    private holdBehaviourIndex: number;
+    private holdBehaviourIndexValue: number = 0;
+    private resetBehaviourIndex: number;
+    private resetBehaviourIndexValue: number = 0;
+    private startResetBehaviourIndex: number;
 
     constructor() {
         super();
@@ -48,11 +54,23 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
         super.update(time, width, height);
         if (!this.pause && time - this.lastTime > this.interval) {
             let newIndex = this.currentIndex + this.incrementor;
-            if (newIndex >= this.textures.length) {
+            if (newIndex >= this.textures.length ||
+                (this.resetIndex && newIndex >= this.resetIndex && this.resetBehaviourIndexValue < this.resetBehaviourIndex)) {
                 if (this.reverse) {
                     newIndex--;
                     this.incrementor *= -1;
                 } else {
+                    if(this.resetBehaviourIndex) {
+                        if(this.holdBehaviourIndexValue >= this.holdBehaviourIndex) {
+                            this.holdBehaviourIndexValue = 0;
+                            this.resetBehaviourIndexValue =  0;
+                        }
+                        if(this.resetBehaviourIndexValue >= this.resetBehaviourIndex) {
+                            this.holdBehaviourIndexValue++;
+                        }
+                        this.resetBehaviourIndexValue++;
+
+                    }
                     newIndex = 0;
                 }
             }
@@ -119,5 +137,21 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
 
     setPause(pause: boolean) {
         this.pause = pause;
+    }
+
+    setResetIndex(resetIndex: number) {
+        this.resetIndex = resetIndex;
+    }
+
+    setHoldBehaviourIndex(holdBehaviourIndex: number) {
+        this.holdBehaviourIndex = holdBehaviourIndex;
+    }
+
+    setResetBehaviourIndex(resetBehaviourIndex: number) {
+        this.resetBehaviourIndex = resetBehaviourIndex;
+    }
+
+    setStartResetBehaviourIndex(startResetBehaviourIndex: number) {
+        this.startResetBehaviourIndex = startResetBehaviourIndex;
     }
 }
