@@ -157,7 +157,7 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
     }
 
     setStartResetBehaviourIndex(startResetBehaviourIndex: number) {
-        this.startResetBehaviourIndex = startResetBehaviourIndex;
+        this.resetBehaviourIndexValue = startResetBehaviourIndex;
     }
 
     setReversePauseInterval(reversePauseInterval: number) {

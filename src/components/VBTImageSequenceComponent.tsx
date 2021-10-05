@@ -20,7 +20,6 @@ export type VBTImageSequenceComponentProps = {
     pause?: boolean; // which pauses the animation
 
     // -- needed for the cube animation --
-    startResetIndex?: number; // the index which sets the initial value of resetIndex
     resetIndex?: number; // index on which the sequence will restart from beginning
     holdBehaviourIndex?: number; // if set to 2 for example, will run 2 whole animations after the reset counter finish
     resetBehaviourIndex?: number; // if set to 3 for example, after the sequence restarts three times at restart index
@@ -126,10 +125,6 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
     useEffect(() => {
         if(props.app) props.app.setPause(props.pause);
     }, [props.pause]);
-
-    useEffect(() => {
-        if(props.app) props.app.setResetIndex(props.startResetIndex);
-    }, [props.startResetIndex]);
     useEffect(() => {
         if(props.app) props.app.setResetIndex(props.resetIndex);
     }, [props.resetIndex]);

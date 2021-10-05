@@ -34,7 +34,8 @@ type VBTImageSequenceComponentProps = {
     pause?: boolean; // which pauses the animation
 
     // -- needed for the cube animation --
-    startResetIndex?: number; // the index which sets the initial value of resetIndex     
+    resetIndex?: number; // index on which the sequence will restart from beginning     
+    startResetBehaviourIndex?: number; //start value for resetBehaviour counter
     holdBehaviourIndex?: number; // if set to 2 for example, will run 2 whole animations after the reset counter finish
     resetBehaviourIndex?: number; // if set to 3 for example, after the sequence restarts three times at restart index
     // and then number equal to the hold-behaviour-index runs full animations
