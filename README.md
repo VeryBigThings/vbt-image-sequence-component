@@ -29,12 +29,12 @@ type VBTImageSequenceComponentProps = {
 
     // -- needed for the layers of customization animation --
     reverse: boolean;//, if set to true, the component goes to the last index and then goes in reverse
-
+    reversePauseInterval?: number; // seconds for how long the animation pauses after running the full sequence with reverse?
     //  -- needed for pausing the plug n play animation --
     pause?: boolean; // which pauses the animation
 
     // -- needed for the cube animation --
-    resetIndex?: number; // index on which the sequence will restart from beginning     
+    startResetIndex?: number; // the index which sets the initial value of resetIndex     
     holdBehaviourIndex?: number; // if set to 2 for example, will run 2 whole animations after the reset counter finish
     resetBehaviourIndex?: number; // if set to 3 for example, after the sequence restarts three times at restart index
     // and then number equal to the hold-behaviour-index runs full animations

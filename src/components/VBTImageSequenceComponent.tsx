@@ -14,11 +14,13 @@ export type VBTImageSequenceComponentProps = {
 
     // -- needed for the layers of customization animation --
     reverse: boolean;//, if set to true, the component goes to the last index and then goes in reverse
+    reversePauseInterval?: number; // seconds for how long the animation pauses after running the full sequence with reverse?
 
     //  -- needed for pausing the plug n play animation --
     pause?: boolean; // which pauses the animation
 
     // -- needed for the cube animation --
+    startResetIndex?: number; // the index which sets the initial value of resetIndex
     resetIndex?: number; // index on which the sequence will restart from beginning
     holdBehaviourIndex?: number; // if set to 2 for example, will run 2 whole animations after the reset counter finish
     resetBehaviourIndex?: number; // if set to 3 for example, after the sequence restarts three times at restart index
@@ -116,12 +118,18 @@ export function VBTImageSequenceComponent(props: VBTImageSequenceComponentProps)
         if(props.app) props.app.setInterval(props.interval);
     }, [props.interval]);
     useEffect(() => {
+        if(props.app) props.app.setReversePauseInterval(props.reversePauseInterval);
+    }, [props.reversePauseInterval]);
+    useEffect(() => {
         if(props.app) props.app.setReverse(props.reverse);
     }, [props.reverse]);
     useEffect(() => {
         if(props.app) props.app.setPause(props.pause);
     }, [props.pause]);
 
+    useEffect(() => {
+        if(props.app) props.app.setResetIndex(props.startResetIndex);
+    }, [props.startResetIndex]);
     useEffect(() => {
         if(props.app) props.app.setResetIndex(props.resetIndex);
     }, [props.resetIndex]);

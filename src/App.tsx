@@ -84,8 +84,9 @@ export default class App extends React.Component<MyProps, MyState> {
                         imagesURLsJSONString={JSON.stringify(this.state.imagesURLs) }
                         app={this.state.app}
                         idleImageSrc={this.state.idleImageSrc}
-                        interval={0.05}
+                        interval={0.03}
                         reverse={true}
+                        reversePauseInterval={1}
                         pause={this.state.pause}
                         aspectRatio={0}
 

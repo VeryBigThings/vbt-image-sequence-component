@@ -20,6 +20,7 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
     private resetBehaviourIndex: number;
     private resetBehaviourIndexValue: number = 0;
     private startResetBehaviourIndex: number;
+    private reversePauseInterval: number = 0;
 
     constructor() {
         super();
@@ -60,12 +61,12 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
                     newIndex--;
                     this.incrementor *= -1;
                 } else {
-                    if(this.resetBehaviourIndex) {
-                        if(this.holdBehaviourIndexValue >= this.holdBehaviourIndex) {
+                    if (this.resetBehaviourIndex) {
+                        if (this.holdBehaviourIndexValue >= this.holdBehaviourIndex) {
                             this.holdBehaviourIndexValue = 0;
-                            this.resetBehaviourIndexValue =  0;
+                            this.resetBehaviourIndexValue = 0;
                         }
-                        if(this.resetBehaviourIndexValue >= this.resetBehaviourIndex) {
+                        if (this.resetBehaviourIndexValue >= this.resetBehaviourIndex) {
                             this.holdBehaviourIndexValue++;
                         }
                         this.resetBehaviourIndexValue++;
@@ -78,6 +79,10 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
             if (newIndex < 0) {
                 newIndex = 0;
                 this.incrementor = 1;
+                this.pause = true;
+                setTimeout(() => {
+                    this.pause = false;
+                }, this.reversePauseInterval * 1000);
             }
             this.setIndex(newIndex)
             this.lastTime = time;
@@ -153,5 +158,9 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
 
     setStartResetBehaviourIndex(startResetBehaviourIndex: number) {
         this.startResetBehaviourIndex = startResetBehaviourIndex;
+    }
+
+    setReversePauseInterval(reversePauseInterval: number) {
+        this.reversePauseInterval = reversePauseInterval;
     }
 }
