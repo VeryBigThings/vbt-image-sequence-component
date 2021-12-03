@@ -1,6 +1,6 @@
 {
   "name": "@verybigthings/vbt-image-sequence-component",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "private": false,
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@VeryBigThings"
@@ -27,7 +27,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "three": "^0.131.3",
+    "three": "0.131.3",
     "copyfiles": "^2.3.0"
   },
   "scripts": {
