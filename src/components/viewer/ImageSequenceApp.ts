@@ -94,7 +94,8 @@ export class ImageSequenceApp extends PlaneMaterialRenderer {
         this.material.dispose();
         this.textures.forEach((el, i) => {
             el.dispose();
-        })
+        });
+        cancelAnimationFrame(this.requestAnimationFrameID);
     }
 
     getDOMElement() {

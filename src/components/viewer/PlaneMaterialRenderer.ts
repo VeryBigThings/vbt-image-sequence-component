@@ -18,6 +18,7 @@ export class PlaneMaterialRenderer {
      * aspectRatio = height / width;
      */
     public aspectRatio: number = 0;
+    protected requestAnimationFrameID: number;
 
     init(material: Material) {
         this.canvas = (document.createElement('canvas') as HTMLCanvasElement);
@@ -56,7 +57,7 @@ export class PlaneMaterialRenderer {
 
         const isCanvasInViewport = (el: HTMLCanvasElement) => {
 
-            const { top, bottom } = el.getBoundingClientRect();
+            const {top, bottom} = el.getBoundingClientRect();
             const vHeight = (window.innerHeight || document.documentElement.clientHeight);
 
             return (
@@ -68,17 +69,17 @@ export class PlaneMaterialRenderer {
         const render = (time: number) => {
             time *= 0.001;
             const canvas = this.renderer.domElement;
-            if(isCanvasInViewport(canvas)) {
+            if (isCanvasInViewport(canvas)) {
                 resizeRendererToDisplaySize(this.renderer);
 
                 this.update(time, canvas.width, canvas.height);
 
                 this.renderer.render(scene, camera);
             }
-            requestAnimationFrame(render);
+            this.requestAnimationFrameID = requestAnimationFrame(render);
         }
 
-        requestAnimationFrame(render);
+        this.requestAnimationFrameID = requestAnimationFrame(render);
     }
 
     update(time: number, width: number, height: number) {
