@@ -2,9 +2,6 @@
   "name": "@verybigthings/vbt-image-sequence-component",
   "version": "0.2.7",
   "private": false,
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@VeryBigThings"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/VeryBigThings/vbt-image-sequence-component.git"

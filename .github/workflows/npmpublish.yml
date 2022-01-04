@@ -13,8 +13,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 10
-      - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.TOKEN_NPM}}" >> ~/.npmrc
-      - run: echo "@verybigthings:registry=https://npm.pkg.github.com" >> ~/.npmrc
+      - run: echo "//registry.npmjs.org/:_authToken=${{secrets.TOKEN_NPM}}" >> ~/.npmrc
+      - run: echo "@verybigthings:registry=https://registry.npmjs.org" >> ~/.npmrc
       - run: npm i
       - run: npm run build-bundle
       - run: npm publish
