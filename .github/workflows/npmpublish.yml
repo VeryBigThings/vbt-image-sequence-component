@@ -17,7 +17,7 @@ jobs:
       - run: echo "@verybigthings:registry=https://registry.npmjs.org" >> ~/.npmrc
       - run: npm i
       - run: npm run build-bundle
-      - run: npm publish
+      - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.TOKEN_NPM}}
         continue-on-error: true
